@@ -17,7 +17,7 @@ html {
  }
 
  .container {
-	width: 1005px;
+	width: 1100px;
 	height: 100%;
 	margin: 0 auto;
 	padding: 30px;
@@ -43,10 +43,10 @@ html {
  
  ul.img-list li {
 	display: inline-block;
-	height: 150px;
+	height: 280px;
 	margin: 0 1em 1em 0;
 	position: relative;
-	width: 280px;
+	width: 150px;
  }
  
  ul.img-list li:hover span.text-content {
@@ -68,7 +68,7 @@ html {
  .image {
 	-webkit-transition: all 0.7s ease;
 	transition: all 0.7s ease;
-	padding: 15px;
+	padding: 10px;
 	margin: auto;
  }
 
