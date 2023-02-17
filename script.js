@@ -19,50 +19,69 @@ const url = APIbaseUrl + '?year=1920'
 
 
 
-function genMovieList(APIurl) {
+function genMovieList(APIurl, nb = 10) {
     const jsonResult = httpGet(APIurl);
-    const APIobj = responseToObject(jsonResult)
-    let nextPageUrl = APIobj.next
-    let result = []
-    let nb_results = APIobj.results.length
+    const APIobj = responseToObject(jsonResult);
+    let nextPageUrl = APIobj.next;
+    let movies = [];
+    let nb_results = APIobj.results.length;
     for (let i = 0; i < nb_results; i++) {
         let movie = APIobj.results[i]
-        
         console.log('ajout de ' + movie.title)
-        result.push(movie)
+        
+        movies.push(movie)
+        nb--
+        if (nb == 0) {
+            return movies
+        }
     }
     if (nextPageUrl != null) {
         console.log('reccurence :' + nextPageUrl)
-        result += genMovieList(nextPageUrl)
+
+        movies.push(...genMovieList(nextPageUrl, nb))
     }
-    return result
+    console.log("genmovielist result : " + movies)
+    return movies
 }
 
-function genOnepage(APIurl) {
-    const jsonResult = httpGet(APIurl);
-    const APIobj = responseToObject(jsonResult)
+// function genOnepage(APIurl) {
+//     const jsonResult = httpGet(APIurl);
+//     const APIobj = responseToObject(jsonResult)
     
-    let result = []
-    let nb_results = APIobj.results.length
-    for (let i = 0; i < nb_results; i++) {
-        let movie = APIobj.results[i]
+//     let result = []
+//     let nb_results = APIobj.results.length
+//     for (let i = 0; i < nb_results; i++) {
+//         let movie = APIobj.results[i]
         
-        console.log('ajout de ' + movie.title)
-        result.push(movie)
+//         console.log('ajout de ' + movie.title)
+//         result.push(movie)
+//     }
+//     return result
+// }
+
+
+// view
+function genMovieRow(films, nb = 7) {
+    for (let i = 0; i < nb; i++) {
+        const film = films[i]
+        const sectionFilms = document.querySelector("#movie_row1")
+        const titleElement = document.createElement('h1');
+        titleElement.innerText = film.title;
+        const imdbScoreElement = document.createElement('p')
+        imdbScoreElement.innerText = "score imdb : " + film.imdb_score
+        sectionFilms.appendChild(titleElement)
+        sectionFilms.appendChild(imdbScoreElement)
+        
     }
-    return result
 }
 
-const movies = genOnepage(url)
+
+const movies = genMovieList(url, 10)
 for (let i = 0; i < 20; i++) {
     
 }
-console.log(movies)
-console.log(movies[0])
-console.log(movies[0][0])
-console.log(movies[0].title)
 
-for (let i=0; i < movies.length; i++) {
-    console.log(movies[i].title)
-    console.log(movies[i].imdb_score)
-}
+
+genMovieRow(movies, 10)
+// document.querySelector(".films").innerHTML = ""
+console.log("je suis à la fin du script js :)")
