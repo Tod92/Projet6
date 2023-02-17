@@ -5,6 +5,17 @@ html {
 	max-width: 1920px;
  }
 
+ body {
+	margin: 0;
+ }
+
+ h1 {
+	margin: 0;
+	color: #bbb;
+	font-size: 1.85em;
+ }
+
+ 
  header {
 	width: 100%;
 	padding-left: 25%;
@@ -46,7 +57,7 @@ html {
 	height: 280px;
 	margin: 0 1em 1em 0;
 	position: relative;
-	width: 150px;
+	width: 100px;
  }
  
  ul.img-list li:hover span.text-content {
@@ -62,7 +73,7 @@ html {
  .image:hover {
 	-webkit-transform: scale(1.35);
 	transform: scale(1.35);
-	opacity: 0.9;
+	opacity: 1;
  }
  
  .image {

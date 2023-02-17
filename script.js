@@ -61,18 +61,37 @@ function genMovieList(APIurl, nb = 10) {
 
 
 // view
-function genMovieRow(films, nb = 7) {
+function genMovieRow(films, rawNumber, rawTitle, nb = 7) {
+    // selection du movie_row visé
+    const sectionFilms = document.querySelector("#movie_row" + String(rawNumber))
+    // Creation du titre sectionTitle
+    const headElement = document.createElement("h1")
+    headElement.className = "sectionTitle"
+    headElement.innerText = rawTitle
+    sectionFilms.appendChild(headElement)
+    // Creation de la balise div thumbs
+    const thumbsElement = document.createElement("div")
+    thumbsElement.className = "thumbs"
+    sectionFilms.appendChild(thumbsElement)
+    // Creation de la balise ul "img-list"
+    const imgListElement = document.createElement("ul")
+    imgListElement.className = "img-list"
+    
+
     for (let i = 0; i < nb; i++) {
         const film = films[i]
-        const sectionFilms = document.querySelector("#movie_row1")
-        const titleElement = document.createElement('h1');
-        titleElement.innerText = film.title;
-        const imdbScoreElement = document.createElement('p')
-        imdbScoreElement.innerText = "score imdb : " + film.imdb_score
-        sectionFilms.appendChild(titleElement)
-        sectionFilms.appendChild(imdbScoreElement)
         
+        const liElement = document.createElement('li')
+        liElement.className = "image"
+        const aElement = document.createElement("a")
+        aElement.href = film.imdb_url
+        const imgElement = document.createElement("img")
+        imgElement.src = film.image_url
+        aElement.appendChild(imgElement)
+        liElement.appendChild(aElement)
+        imgListElement.appendChild(liElement)
     }
+    sectionFilms.appendChild(imgListElement)
 }
 
 
@@ -82,6 +101,8 @@ for (let i = 0; i < 20; i++) {
 }
 
 
-genMovieRow(movies, 10)
+genMovieRow(movies, 3)
 // document.querySelector(".films").innerHTML = ""
+
+
 console.log("je suis à la fin du script js :)")
