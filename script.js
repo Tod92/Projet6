@@ -16,8 +16,10 @@ function responseToObject(JSONresponse)
 const APIbaseUrl = 'http://localhost:8000/api/v1/titles/'
 
 const url = APIbaseUrl + '?year=1920'
-
-
+const url2 = APIbaseUrl + '?year=1920' + "?sort_by=&title"
+//'?imdb_score=5'
+//"?sort_by= -(pour inverser) dans url avec tous les filtres"
+const url_bestImdbScores = APIbaseUrl + "?sort_by=-imdb_score&imdb_score_min=9"
 
 function genMovieList(APIurl, nb = 10) {
     const jsonResult = httpGet(APIurl);
@@ -44,20 +46,7 @@ function genMovieList(APIurl, nb = 10) {
     return movies
 }
 
-// function genOnepage(APIurl) {
-//     const jsonResult = httpGet(APIurl);
-//     const APIobj = responseToObject(jsonResult)
-    
-//     let result = []
-//     let nb_results = APIobj.results.length
-//     for (let i = 0; i < nb_results; i++) {
-//         let movie = APIobj.results[i]
-        
-//         console.log('ajout de ' + movie.title)
-//         result.push(movie)
-//     }
-//     return result
-// }
+
 
 
 // view
@@ -75,9 +64,8 @@ function genMovieRow(films, rawNumber, rawTitle, nb = 7) {
     sectionFilms.appendChild(thumbsElement)
     // Creation de la balise ul "img-list"
     const imgListElement = document.createElement("ul")
+    // Creation de la liste d'image et boucle pour chaque image
     imgListElement.className = "img-list"
-    
-
     for (let i = 0; i < nb; i++) {
         const film = films[i]
         
@@ -88,6 +76,10 @@ function genMovieRow(films, rawNumber, rawTitle, nb = 7) {
         const imgElement = document.createElement("img")
         imgElement.src = film.image_url
         aElement.appendChild(imgElement)
+        const spanElement = document.createElement("span")
+        spanElement.className = "text-content"
+        spanElement.innerHTML = "<br><br><br><br><br><br><br><br><br><br><br><br><br><br>" + film.title
+        aElement.appendChild(spanElement)
         liElement.appendChild(aElement)
         imgListElement.appendChild(liElement)
     }
@@ -101,8 +93,10 @@ for (let i = 0; i < 20; i++) {
 }
 
 
-genMovieRow(movies, 3)
+genMovieRow(movies, 3, "COLONNE GENEREE PAR genMovieRow")
 // document.querySelector(".films").innerHTML = ""
 
+const movies2 = genMovieList(url_bestImdbScores, 7)
+genMovieRow(movies2, 4, "Meilleurs scores ImDb")
 
 console.log("je suis à la fin du script js :)")
