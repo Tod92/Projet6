@@ -19,7 +19,6 @@ const url = APIbaseUrl + '?year=1920'
 const url2 = APIbaseUrl + '?year=1920' + "?sort_by=&title"
 //'?imdb_score=5'
 //"?sort_by= -(pour inverser) dans url avec tous les filtres"
-const url_bestImdbScores = APIbaseUrl + "?sort_by=-imdb_score&imdb_score_min=9"
 
 function genMovieList(APIurl, nb = 10) {
     const jsonResult = httpGet(APIurl);
@@ -86,17 +85,23 @@ function genMovieRow(films, rawNumber, rawTitle, nb = 7) {
     sectionFilms.appendChild(imgListElement)
 }
 
+// On genere le row des meilleurs films par note imdb
+const url_bestImdbScores = APIbaseUrl + "?sort_by=-imdb_score&imdb_score_min=9"
+const movies2 = genMovieList(url_bestImdbScores, 7)
+genMovieRow(movies2, 2, "Meilleurs scores ImDb")
 
-const movies = genMovieList(url, 10)
-for (let i = 0; i < 20; i++) {
-    
-}
+// On genere le row des meilleurs films par catégorie "Drama"
+const url_bestDramas = APIbaseUrl + "?sort_by=-imdb_score&genre_contains=Animation"
+const movies3 = genMovieList(url_bestDramas, 7)
+genMovieRow(movies3, 3, "Meilleurs films d'animation")
 
+// On genere le row des meilleurs films de 2022
+const url_best2022 = APIbaseUrl + "?sort_by=-imdb_score&gyear=2022"
+const movies4 = genMovieList(url_best2022, 7)
+genMovieRow(movies4, 4, "Meilleurs films de 2022")
 
-genMovieRow(movies, 3, "COLONNE GENEREE PAR genMovieRow")
 // document.querySelector(".films").innerHTML = ""
 
-const movies2 = genMovieList(url_bestImdbScores, 7)
-genMovieRow(movies2, 4, "Meilleurs scores ImDb")
+
 
 console.log("je suis à la fin du script js :)")
