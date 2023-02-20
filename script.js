@@ -102,6 +102,11 @@ genMovieRow(movies4, 4, "Meilleurs films de 2022")
 
 // document.querySelector(".films").innerHTML = ""
 
-
-
+const SectionBoutton = document.querySelector("#left1")
+const imgElement = document.createElement("img")
+imgElement.src = "images\\left.png"
+imgElement.alt = "left_arrow"
+imgElement.height = 260
+imgElement.width = 45
+SectionBoutton.appendChild(imgElement)
 console.log("je suis à la fin du script js :)")
