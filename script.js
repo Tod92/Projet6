@@ -16,10 +16,7 @@ function responseToObject(JSONresponse)
 
 const APIbaseUrl = 'http://localhost:8000/api/v1/titles/'
 
-const url = APIbaseUrl + '?year=1920'
-const url2 = APIbaseUrl + '?year=1920' + "?sort_by=&title"
-//'?imdb_score=5'
-//"?sort_by= -(pour inverser) dans url avec tous les filtres"
+
 
 function genMovieList(APIurl, nb = 7) {
     const jsonResult = httpGet(APIurl);
