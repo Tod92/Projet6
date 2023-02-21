@@ -1,6 +1,6 @@
 html {
 	margin: 0;
-	background: #080808;
+	background: #2e2d2d;
 	font-family: helvetica;
 	max-width: 1920px;
  }
@@ -19,7 +19,7 @@ html {
  header {
 	width: 100%;
 	padding-left: 10%;
-	background: #261b14;
+	background: #beaa12;
 	color: rgb(196, 27, 27);
 	height: 100px;
 	padding-top: 5px;
@@ -57,7 +57,7 @@ html {
 	height: 280px;
 	margin: 0 1em 1em 0;
 	position: relative;
-	width: 140px;
+	width: 130px;
  }
  
  ul.img-list li:hover span.text-content {
@@ -92,7 +92,7 @@ html {
 	left: 15px;
 	position: absolute;
 	top: 15px;
-	width: 180px;
+	width: 160px;
 	opacity: 0;
 	-webkit-transition: opacity 500ms;
 	-moz-transition: opacity 500ms;

@@ -21,7 +21,7 @@ const url2 = APIbaseUrl + '?year=1920' + "?sort_by=&title"
 //'?imdb_score=5'
 //"?sort_by= -(pour inverser) dans url avec tous les filtres"
 
-function genMovieList(APIurl, nb = 28) {
+function genMovieList(APIurl, nb = 7) {
     const jsonResult = httpGet(APIurl);
     const APIobj = responseToObject(jsonResult);
     let nextPageUrl = APIobj.next;
@@ -51,9 +51,9 @@ function genMovieList(APIurl, nb = 28) {
 
 
 // view
-function genMovieRow(films, rawNumber, rawTitle, nb = 7, page = 2) {
-    document.querySelector("#movie_row" + String(rawNumber)).innerHTML=""
+function genMovieRow(films, rawNumber, rawTitle, nb = 7, page = 1) {
     // selection du movie_row visé
+    document.querySelector("#movie_row" + String(rawNumber)).innerHTML=""
     const sectionFilms = document.querySelector("#movie_row" + String(rawNumber))
     
     // Creation du titre sectionTitle
@@ -61,14 +61,18 @@ function genMovieRow(films, rawNumber, rawTitle, nb = 7, page = 2) {
     headElement.className = "sectionTitle"
     headElement.innerText = rawTitle
     sectionFilms.appendChild(headElement)
+
     // Creation de la balise div thumbs
     const thumbsElement = document.createElement("div")
     thumbsElement.className = "thumbs"
     sectionFilms.appendChild(thumbsElement)
+
     // Creation de la balise ul "img-list"
     const imgListElement = document.createElement("ul")
+
     // Creation de la liste d'image et boucle pour chaque image
     imgListElement.className = "img-list"
+
     // Bouton page precedente
     if (page > 1) {
         const IdSelectorName = "left" + String(rawNumber)
@@ -83,7 +87,8 @@ function genMovieRow(films, rawNumber, rawTitle, nb = 7, page = 2) {
         SectionBouttonLeft.appendChild(imgElement)
         imgListElement.appendChild(SectionBouttonLeft)
     }
-    // Liste des films
+
+    // Liste de vignettes films
     for (let i = 0; i < nb; i++) {
         const film = films[i]
         
@@ -94,15 +99,16 @@ function genMovieRow(films, rawNumber, rawTitle, nb = 7, page = 2) {
         const imgElement = document.createElement("img")
         imgElement.src = film.image_url
         imgElement.height = 280
-        imgElement.width = 180
+        imgElement.width = 160
         aElement.appendChild(imgElement)
         const spanElement = document.createElement("span")
         spanElement.className = "text-content"
-        spanElement.innerHTML = "<br><br><br><br><br><br><br><br><br><br><br><br><br><br>" + film.title
+        spanElement.innerHTML = "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>" + film.title
         aElement.appendChild(spanElement)
         liElement.appendChild(aElement)
         imgListElement.appendChild(liElement)
     }
+
     // Bouton page suivante
     if (page < 4) {
         const IdSelectorNameRight = "right" + String(rawNumber)
@@ -120,55 +126,104 @@ function genMovieRow(films, rawNumber, rawTitle, nb = 7, page = 2) {
     sectionFilms.appendChild(imgListElement)
 }
 
+// model pour row 
+class Row {
+    constructor(number, api_url, title, page) {
+        this.number = number
+        this.api_url = api_url
+        this.title = title
+        this.page = page
+        this.movies = this.get_movies()
+    }
+    get_movies() {
+        let range = (this.page * 7)
+        return genMovieList(this.api_url, range)
+    }
+    show() {
+        // Slice pour se positionner au bon endroit de la liste avant affichage
+        let range = (this.page * 7)
+        console.log("show range : " + String(range))
+        let sliced_movies = this.movies.slice((range-7),range)
+        genMovieRow(sliced_movies, this.number, this.title, 7, this.page)
+    }
+    showNext() {
+        this.page += 1;
+        let range = (this.page * 7)
+        if (this.movies.length < range) {
+            this.movies = this.get_movies()
+        }
+        this.show()
+    }
+    showPrevious() {
+        this.page -= 1;
+        this.show()
+    }
+}
+
+
 // On genere le row des meilleurs films par note imdb
 const url_bestImdbScores = APIbaseUrl + "?sort_by=-imdb_score&imdb_score_min=9"
-const movies2 = genMovieList(url_bestImdbScores)
-genMovieRow(movies2, 2, "Meilleurs scores ImDb")
+const row1 = new Row(1, url_bestImdbScores, "Meilleurs scores ImDb", 1)
+row1.show()
 
-// On genere le row des meilleurs films par catégorie "Drama"
-const url_bestDramas = APIbaseUrl + "?sort_by=-imdb_score&genre_contains=Animation"
-const movies3 = genMovieList(url_bestDramas)
-genMovieRow(movies3, 3, "Meilleurs films d'animation")
+
+// On genere le row des meilleurs films par catégorie "Animation"
+const url_bestAnimations = APIbaseUrl + "?sort_by=-imdb_score&genre_contains=Animation"
+const row2 = new Row(2, url_bestAnimations, "Meilleurs films d'animation", 1 )
+row2.show()
 
 // On genere le row des meilleurs films de Tarantino
 const url_bestTarantino = APIbaseUrl + "?sort_by=-imdb_score&writer_contains=tarantino&director_contains=tarantino"
-const movies4 = genMovieList(url_bestTarantino)
-genMovieRow(movies4, 4, "Meilleurs films de Quentin Tarantino")
-
-// document.querySelector(".films").innerHTML = ""
+const row3 = new Row(3, url_bestTarantino,"Meilleurs films de Quentin Tarantino", 1)
+row3.show()
 
 
-const SectionBouttonLeft1 = document.querySelector("#left1")
-const imgElement = document.createElement("img")
-imgElement.src = "images\\left.png"
-imgElement.alt = "left_arrow"
-imgElement.height = 120
-imgElement.width = 45
-SectionBouttonLeft1.appendChild(imgElement)
-
-const SectionBouttonRight1 = document.querySelector("#right1")
-const imgElement2 = document.createElement("img")
-imgElement2.src = "images\\right.png"
-imgElement2.alt = "right_arrow"
-imgElement2.height = 120
-imgElement2.width = 45
-SectionBouttonRight1.appendChild(imgElement2)
-
-
-for (let i = 0; i < 4; i++) {
+// Boucle pour "écouter" les boutons de défilement gauche et droite
+function Listener() {
+    for (let i = 0; i < 4; i++) {
     let leftId = "left" + String(i+1)
-    document.getElementById(leftId).onclick = function() {myFunction(leftId)};
-    console.log("init bouton id : " + leftId)
+    try { document.getElementById(leftId).onclick = function() {onArrowClick(leftId)};
+    console.log("init bouton id : " + leftId) } catch (TypeError) {
+        console.log("Bouton non trouvé : " + leftId)
+    }
     let rightId = "right" + String(i+1)
-    document.getElementById(rightId).onclick = function() {myFunction(rightId)};
-    console.log("init bouton id : " + rightId)
+    try { document.getElementById(rightId).onclick = function() {onArrowClick(rightId)};
+    console.log("init bouton id : " + rightId)} catch (TypeError) {
+        console.log("Bouton non trouvé : " + rightId)
+    }
 
 }
-// document.getElementById("left1").onclick = function() {myFunction("left1")};
-  
-// document.getElementById("right1").onclick = function() {genMovieRow(movies2, 1, "coucou")};
-  
-function myFunction(elementId) {
-  console.log("tu a cliqué sur " + elementId);
 }
-console.log("je suis à la fin du script js :)")
+
+function onArrowClick(elementId) {
+    console.log("tu a cliqué sur " + elementId);
+    if (elementId == "right1") {
+        row1.showNext()
+    }
+    if (elementId == "left1") {
+        row1.showPrevious()
+    }
+    if (elementId == "right2") {
+        row2.showNext()
+    }
+    if (elementId == "left2") {
+        row2.showPrevious()
+    }
+    if (elementId == "right3") {
+        row3.showNext()
+    }
+    if (elementId == "left3") {
+        row3.showPrevious()
+    }
+    if (elementId == "right4") {
+        row4.showNext()
+    }
+    if (elementId == "left4") {
+        row4.showPrevious()
+    }
+    Listener()
+  }
+
+
+  Listener()
+  console.log("je suis à la fin du script js :)")
