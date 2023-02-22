@@ -134,11 +134,19 @@ class Row {
     }
     get_movies() {
         let range = (this.page * 7)
+        // Cas row1 : augmentation de la liste de 1 pour la vignette
+        if (this.number === 1) {
+            range += 1
+        }
         return genMovieList(this.api_url, range)
     }
     show() {
         // Slice pour se positionner au bon endroit de la liste avant affichage
         let range = (this.page * 7)
+        // Cas row1 : augmentation de la range de 1 pour ignorer le premier élement
+        if (this.number === 1) {
+            range += 1
+        }
         console.log("show range : " + String(range))
         let sliced_movies = this.movies.slice((range-7),range)
         genMovieRow(sliced_movies, this.number, this.title, 7, this.page)
@@ -147,6 +155,7 @@ class Row {
         this.page += 1;
         let range = (this.page * 7)
         if (this.movies.length < range) {
+            console.log("showNext loading movie list(length : " + String(range))
             this.movies = this.get_movies()
         }
         this.show()
@@ -159,8 +168,11 @@ class Row {
 
 
 // On genere le row des meilleurs films par note imdb
+// ! specificité : on isole le premier résultat de la liste pour la vignette meilleur film
 const url_bestImdbScores = APIbaseUrl + "?sort_by=-imdb_score&imdb_score_min=9"
 const row1 = new Row(1, url_bestImdbScores, "Meilleurs scores ImDb", 1)
+const bestMovie = row1.movies[0]
+console.log("bestMovie = " + bestMovie.title)
 row1.show()
 
 
@@ -223,4 +235,17 @@ function onArrowClick(elementId) {
 
 
   Listener()
+
+//   const sectionBestMovie = document.querySelector("#best_div")
+//   const imageElement = document.createElement("img")
+//   imageElement.className = "img-best"
+//   imageElement.src = row1.movies[0].image_url
+//   imageElement.innerText = "Test coucou caca pipi coco"
+//   sectionBestMovie.appendChild(imageElement)
+//   const descritpionElement = document.createElement("span")
+//   descritpionElement.className = "desc-best"
+//   descritpionElement.innerText = "TITRE DU FILM"
+//   sectionBestMovie.appendChild(descritpionElement)
+
+
   console.log("je suis à la fin du script js :)")

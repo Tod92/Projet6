@@ -11,7 +11,7 @@ html {
 
  h1 {
 	margin: 0;
-	color: #bbb;
+	color: #656565;
 	font-size: 1.85em;
  }
 
@@ -19,7 +19,7 @@ html {
  header {
 	width: 100%;
 	padding-left: 10%;
-	background: #a6a6a2;
+	background: #656565;
 	color: rgb(196, 27, 27);
 	height: 100px;
 	padding-top: 5px;
@@ -27,6 +27,27 @@ html {
 	font-size: 1.5em;
  }
 
+ .best_div {
+	margin-left: 15px;
+	width : 300px;
+	height : 300px;
+	border : 5px solid;
+	margin 0px auto;
+	background_image : url("images\juststreamit.png");
+ }
+
+ .img-best {
+	padding-left: 50px;
+	height: 300px;
+	width: 300px;
+ }
+
+ .desc-best {
+	padding-left: 50px;
+	height: 300px;
+	width: 200px;
+	display: inline-block;
+ }
  .container {
 	width: 1300px;
 	height: 100%;
@@ -57,7 +78,7 @@ html {
 	height: 280px;
 	margin: 0 1em 1em 0;
 	position: relative;
-	width: 130px;
+	width: 125px;
  }
  
  ul.img-list li:hover span.text-content {
