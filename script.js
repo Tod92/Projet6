@@ -92,7 +92,8 @@ function genMovieRow(films, rawNumber, rawTitle, nb = 7, page = 1) {
         const liElement = document.createElement('li')
         liElement.className = "image"
         const aElement = document.createElement("a")
-        aElement.href = film.imdb_url
+        aElement.href = "javascript:void(0)"
+        aElement.id = "movie" + String(i)
         const imgElement = document.createElement("img")
         imgElement.src = film.image_url
         imgElement.height = 280
@@ -165,6 +166,11 @@ class Row {
         this.page -= 1;
         this.show()
     }
+    showModal(movie_index) {
+        movie_index += (this.page - 1) * 7;
+        movie = this.movie[movie_index]
+        console.log("MODAL DEMANDE POUR :" +movie.title)
+    }
 }
 
 
@@ -191,20 +197,45 @@ document.querySelector("#loading").innerHTML=""
 
 // Boucle pour "écouter" les boutons de défilement gauche et droite
 function Listener() {
-    for (let i = 0; i < 4; i++) {
-    let leftId = "left" + String(i+1)
-    try { document.getElementById(leftId).onclick = function() {onArrowClick(leftId)};
-    console.log("init bouton id : " + leftId) } catch (TypeError) {
-        console.log("Bouton non trouvé : " + leftId)
-    }
-    let rightId = "right" + String(i+1)
-    try { document.getElementById(rightId).onclick = function() {onArrowClick(rightId)};
-    console.log("init bouton id : " + rightId)} catch (TypeError) {
-        console.log("Bouton non trouvé : " + rightId)
-    }
+    // Pour les arrows next et previous
+    for (let i = 0; i < 3; i++) {
+        let leftId = "left" + String(i+1)
+        try { document.getElementById(leftId).onclick = function() {onArrowClick(leftId)};
+        console.log("init bouton id : " + leftId) } catch (TypeError) {
+            console.log("Bouton non trouvé : " + leftId)}
+       
+    
+        let rightId = "right" + String( i+1)
+        try { document.getElementById(rightId).onclick = function() {onArrowClick(rightId)};
+        console.log("init bouton id : " + rightId)} catch (TypeError) {
+            console.log("Bouton non trouvé : " + rightId)}
+        }
+    // Pour les vignettes de film et call modal
+    for (let i = 0; i < 3; i++) {
+        let rowId = "movie_row" + String(i +1)
+        const rowElement = document.querySelector(rowId)
+        for (let a = 0; a < 7; a++) {
+            let aId = "movie" + String(a)
+            console.log("aId = " + aId)
+            rowElement.getElementById(aId).onclick = function() {onImgClick(rowId,a)};
 
+        }
+    }
 }
+
+function onImgClick(row_id, movie_index) {
+    console.log("tu a cliqué sur " + row_id + "image " + movie_index)
+    if (rowId == "movie_row1") {
+        row1.showModal(movie_index)
+    }
+    if (rowId == "movie_row2") {
+        row2.showModal(movie_index)
+    }
+    if (rowId == "movie_row3") {
+        row3.showModal(movie_index)
+    }
 }
+
 
 function onArrowClick(elementId) {
     console.log("tu a cliqué sur " + elementId);
@@ -232,7 +263,7 @@ function onArrowClick(elementId) {
     if (elementId == "left4") {
         row4.showPrevious()
     }
-    Listener()
+    Listener();
   }
 
 
@@ -251,3 +282,30 @@ function onArrowClick(elementId) {
 
 
   console.log("je suis à la fin du script js :)")
+
+  // Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.innerHTML = ""
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+} 
