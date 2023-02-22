@@ -17,7 +17,6 @@ function responseToObject(JSONresponse)
 const APIbaseUrl = 'http://localhost:8000/api/v1/titles/'
 
 
-
 function genMovieList(APIurl, nb = 7) {
     const jsonResult = httpGet(APIurl);
     const APIobj = responseToObject(jsonResult);
@@ -75,12 +74,13 @@ function genMovieRow(films, rawNumber, rawTitle, nb = 7, page = 1) {
         const IdSelectorName = "left" + String(rawNumber)
         const SectionBouttonLeft = document.createElement("a")
         SectionBouttonLeft.id = IdSelectorName
-        SectionBouttonLeft.href = "#"
+        SectionBouttonLeft.href = "javascript:void(0)"
         const imgElement = document.createElement("img")
+        imgElement.className = "arrow"
         imgElement.src = "images\\left.png"
         imgElement.alt = "left_arrow"
-        imgElement.height = 120
-        imgElement.width = 45
+        // imgElement.height = 120
+        // imgElement.width = 45
         SectionBouttonLeft.appendChild(imgElement)
         imgListElement.appendChild(SectionBouttonLeft)
     }
@@ -111,12 +111,13 @@ function genMovieRow(films, rawNumber, rawTitle, nb = 7, page = 1) {
         const IdSelectorNameRight = "right" + String(rawNumber)
         const SectionBouttonRight = document.createElement("a")
         SectionBouttonRight.id = IdSelectorNameRight
-        SectionBouttonRight.href = "#"
+        SectionBouttonRight.href = "javascript:void(0)"
         const imgElement = document.createElement("img")
+        imgElement.className = "arrow"
         imgElement.src = "images\\right.png"
         imgElement.alt = "right_arrow"
-        imgElement.height = 120
-        imgElement.width = 45
+        // imgElement.height = 120
+        // imgElement.width = 45
         SectionBouttonRight.appendChild(imgElement)
         imgListElement.appendChild(SectionBouttonRight)
     }
@@ -186,6 +187,7 @@ const url_bestTarantino = APIbaseUrl + "?sort_by=-imdb_score&writer_contains=tar
 const row3 = new Row(3, url_bestTarantino,"Meilleurs films de Quentin Tarantino", 1)
 row3.show()
 
+document.querySelector("#loading").innerHTML=""
 
 // Boucle pour "écouter" les boutons de défilement gauche et droite
 function Listener() {
