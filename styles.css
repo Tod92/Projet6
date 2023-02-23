@@ -160,6 +160,7 @@ li.arrow {
   
   /* Modal Content/Box */
   .modal-content {
+
 	background-color: #878787;
 	margin: 15% auto; /* 15% from the top and centered */
 	padding: 20px;
@@ -167,6 +168,14 @@ li.arrow {
 	width: 80%; /* Could be more or less, depending on screen size */
   }
   
+  .modal-text {
+	display : flex;
+  }
+
+  .modal-text p {
+	padding-left: 40px;
+  }
+
   /* The Close Button */
   .close {
 	color: #aaa;

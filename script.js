@@ -181,24 +181,22 @@ class Row {
         var modal = document.getElementById("myModal");
         var btn = document.getElementById("myBtn");
         var span = document.getElementsByClassName("close")[0];
-        var modalText = document.getElementById("modal-text");
+        var modalText = document.getElementsByClassName("modal-text")[0];
         modalText.innerHTML = "Chargement "
         modal.style.display = "block";
         var detailedMovie = getMovieDetails(movie.url)
         // modalText.innerHTML =
-        var modalConstruct = "<h2>" + detailedMovie.title + "</h1>" +
-                            "<img src=\"" + detailedMovie.image_url + "\">" +
-                            "Genres :"
+        var modalConstruct ="<img src=\"" + detailedMovie.image_url + "\">" +
+                            "<p>" + "<b>" + detailedMovie.title + "</b>" +
+                            "<br><br>" + "Genres :";
         for (const genre of detailedMovie.genres) {
             modalConstruct += " " + genre
         }
-        modalConstruct += "<br>" + "Année de sortie : " + movie.year
+        modalConstruct += "<br>" + "Année de sortie : " + detailedMovie.date_published
+        modalConstruct += "<br>" + "Rated : " + detailedMovie.rated
+        modalConstruct += "<br>" + "Score Imdb : " + detailedMovie.imdb_score
+        modalConstruct += "</p>"
 
-
-        // Le genre complet du film
-        // Sa date de sortie
-        // Son Rated
-        // Son score Imdb
         // Son réalisateur
         // La liste des acteurs
         // Sa durée
