@@ -161,10 +161,10 @@ li.arrow {
   /* Modal Content/Box */
   .modal-content {
 
-	background-color: #878787;
+	background-color: #3e3d3d;
 	margin: 15% auto; /* 15% from the top and centered */
 	padding: 20px;
-	border: 1px solid #888;
+	border: 1px solid #e7e7e7;
 	width: 80%; /* Could be more or less, depending on screen size */
   }
   

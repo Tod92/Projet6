@@ -195,16 +195,28 @@ class Row {
         modalConstruct += "<br>" + "Année de sortie : " + detailedMovie.date_published
         modalConstruct += "<br>" + "Rated : " + detailedMovie.rated
         modalConstruct += "<br>" + "Score Imdb : " + detailedMovie.imdb_score
-        modalConstruct += "</p>"
+        modalConstruct += "<br>" + "Realisateur(s) :"
+        for (const real of detailedMovie.directors) {
+            modalConstruct += " " + real 
+        }
+        modalConstruct += "<br>" + "Acteur(s) :"
+        for (const actor of detailedMovie.actors) {
+            modalConstruct += " " + actor 
+        }
+        modalConstruct += "<br>" + "Durée (mn) : " + String(detailedMovie.duration)
+        modalConstruct += "<br>" + "Pays d'origine :"
+        for (const pays of detailedMovie.countries) {
+            modalConstruct += " " + pays 
+        }
+        modalConstruct += "<br>" + "Résultat Box Office: " + String(detailedMovie.worldwide_gross_income)
+        modalConstruct += " " + detailedMovie.budget_currency
+        modalConstruct += "<br>" + "Résumé du film : " + "<br>" + detailedMovie.long_description
 
-        // Son réalisateur
-        // La liste des acteurs
-        // Sa durée
-        // Le pays d’origine
+        modalConstruct += "</p>"
+        modalText.innerHTML = modalConstruct
         // Le résultat au Box Office
         // Le résumé du film
     
-        modalText.innerHTML = modalConstruct
         
                             
         // modal.style.display = "block";
