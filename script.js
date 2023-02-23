@@ -43,7 +43,12 @@ function genMovieList(APIurl, nb = 7) {
     return movies
 }
 
-
+function getMovieDetails(APIurl) {
+    console.log("requete api pour detail film : " + APIurl)
+    const jsonResult = httpGet(APIurl);
+    const APIobj = responseToObject(jsonResult);
+    return APIobj
+}
 
 
 // view
@@ -177,20 +182,34 @@ class Row {
         var btn = document.getElementById("myBtn");
         var span = document.getElementsByClassName("close")[0];
         var modalText = document.getElementById("modal-text");
-        modalText.innerHTML = ""
+        modalText.innerHTML = "Chargement "
+        modal.style.display = "block";
+        var detailedMovie = getMovieDetails(movie.url)
         // modalText.innerHTML =
-        var htmlConstruct = "<h2>" + movie.title + "</h1>" +
-                            "<img src=\"" + movie.image_url + "\">" +
+        var modalConstruct = "<h2>" + detailedMovie.title + "</h1>" +
+                            "<img src=\"" + detailedMovie.image_url + "\">" +
                             "Genres :"
-        for (const genre of movie.genres) {
-            htmlConstruct += " " + genre
+        for (const genre of detailedMovie.genres) {
+            modalConstruct += " " + genre
         }
-        htmlConstruct += "\n" + "Année de sortie : " + movie.year
-        
-        modalText.innerHTML = htmlConstruct
+        modalConstruct += "<br>" + "Année de sortie : " + movie.year
+
+
+        // Le genre complet du film
+        // Sa date de sortie
+        // Son Rated
+        // Son score Imdb
+        // Son réalisateur
+        // La liste des acteurs
+        // Sa durée
+        // Le pays d’origine
+        // Le résultat au Box Office
+        // Le résumé du film
+    
+        modalText.innerHTML = modalConstruct
         
                             
-        modal.style.display = "block";
+        // modal.style.display = "block";
         
        // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
