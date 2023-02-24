@@ -26,21 +26,17 @@ function genMovieList(APIurl, nb = 7) {
     let nb_results = APIobj.results.length;
     for (let i = 0; i < nb_results; i++) {
         let movie = APIobj.results[i]
-        console.log('ajout de ' + movie.title)
-        
+        console.log('exctraction du film: ' + movie.title)
         movies.push(movie)
         nb--
         if (nb == 0) {
-            console.log("genmovielist result : " + movies)
             return movies
         }
     }
     if (nextPageUrl != null) {
         console.log('reccurence :' + nextPageUrl)
-
         movies.push(...genMovieList(nextPageUrl, nb))
     }
-    console.log("genmovielist result : " + movies)
     return movies
 }
 
@@ -169,7 +165,6 @@ class Row {
         if (this.number === 1) {
             range += 1
         }
-        console.log("show range : " + String(range))
         let sliced_movies = this.movies.slice((range-7),range)
         genMovieRow(sliced_movies, this.number, this.title, 7, this.page)
     }
@@ -275,7 +270,6 @@ function Listener() {
         const rowElement = document.querySelector(rowId)
         for (let a = 0; a < 7; a++) {
             let aId = "movie" + String(i+1) + String(a)
-            console.log("aId = " + aId)
             document.getElementById(aId).onclick = function() {onImgClick(rowId,a)};
         }
     }
