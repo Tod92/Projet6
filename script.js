@@ -233,7 +233,16 @@ class Row {
         }
     }
 }
+function showBestMovie(movie) {
+    const sectionBestMovie = document.getElementById("best_movie")
+    sectionBestMovie.innerHTML = "<h1 class=\"sectionTitle\"> Meilleur film : " + movie.title + "</h1>"
+                                +"<div class=\"container\">"
+                                +"<img src =\"" + movie.image_url + "\">" 
+                                + "<span><br><b>"+ movie.title + "</b><br><br>" + movie.long_description 
+                                + "<br><br><input id =\"btn-bestmovie\" type=\"button\" value=\"Détails\">"
+                                + "</span></div><br><br>"
 
+}
 
 // On genere le row des meilleurs films par note imdb
 // ! specificité : on isole le premier résultat de la liste pour la vignette meilleur film
@@ -242,6 +251,8 @@ const url_bestImdbScores = APIbaseUrl + "?sort_by=-imdb_score&imdb_score_min=9"
 const row1 = new Row(1, url_bestImdbScores, "Meilleurs scores ImDb", 1)
 const bestMovie = row1.movies[0]
 console.log("bestMovie = " + bestMovie.title)
+const detailedBestMovie = getMovieDetails(bestMovie.url)
+showBestMovie(detailedBestMovie)
 row1.show()
 
 
@@ -280,10 +291,10 @@ function Listener() {
             let aId = "movie" + String(i+1) + String(a)
             console.log("aId = " + aId)
             document.getElementById(aId).onclick = function() {onImgClick(rowId,a)};
-
         }
-
     }
+    document.getElementById("btn-bestmovie").onclick = function() {onImgClick("best-movie",0)};
+    
 }
 
 function onImgClick(row_id, movie_index) {
@@ -296,6 +307,10 @@ function onImgClick(row_id, movie_index) {
     }
     if (row_id == "movie_row3") {
         row3.showModal(movie_index)
+    }
+    // cas particulier pour BestMovie
+    if (row_id == "best-movie") {
+        row1.showModal(-1)
     }
 }
 
@@ -320,29 +335,11 @@ function onArrowClick(elementId) {
     if (elementId == "left3") {
         row3.showPrevious()
     }
-    if (elementId == "right4") {
-        row4.showNext()
-    }
-    if (elementId == "left4") {
-        row4.showPrevious()
-    }
     Listener();
   }
 
 
   Listener()
-
-//   const sectionBestMovie = document.querySelector("#best_div")
-//   const imageElement = document.createElement("img")
-//   imageElement.className = "img-best"
-//   imageElement.src = row1.movies[0].image_url
-//   imageElement.innerText = "Test coucou caca pipi coco"
-//   sectionBestMovie.appendChild(imageElement)
-//   const descritpionElement = document.createElement("span")
-//   descritpionElement.className = "desc-best"
-//   descritpionElement.innerText = "TITRE DU FILM"
-//   sectionBestMovie.appendChild(descritpionElement)
-
 
   console.log("je suis à la fin du script js :)")
 
