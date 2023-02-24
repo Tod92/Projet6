@@ -172,9 +172,12 @@ class Row {
         this.show()
     }
     showModal(movie_index) {
-        movie_index += (this.page - 1) * 7;
         if (this.number == 1) {
             movie_index +=1;
+        }
+        // Cas particulier lors de l'appel pour bestMovie
+        if (movie_index != 0) {
+        movie_index += (this.page - 1) * 7;
         }
         let movie = this.movies[movie_index]
         console.log("MODAL DEMANDE POUR :" + movie.title)
