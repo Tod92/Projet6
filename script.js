@@ -17,6 +17,7 @@ function responseToObject(JSONresponse)
 const APIbaseUrl = 'http://localhost:8000/api/v1/titles/'
 
 
+// Fonction de recuperation de la liste de film sur l'API
 function genMovieList(APIurl, nb = 7) {
     const jsonResult = httpGet(APIurl);
     const APIobj = responseToObject(jsonResult);
@@ -50,8 +51,22 @@ function getMovieDetails(APIurl) {
     return APIobj
 }
 
+// View
 
-// view
+// Fonction d'affichage du film en vedette "meilleur film"
+function showBestMovie(movie) {
+    const sectionBestMovie = document.getElementById("best_movie")
+    sectionBestMovie.innerHTML = "<h1 class=\"sectionTitle\"> Meilleur film : " + movie.title + "</h1>"
+                                +"<div class=\"container\">"
+                                +"<img src =\"" + movie.image_url + "\">" 
+                                + "<span><br><b>"+ movie.title 
+                                + "<br><br><input id =\"btn-bestmovie\" type=\"button\" value=\"Détails\">"
+                                + "</b><br><br>" + movie.long_description + "</b>"
+                                + "</span></div><br><br>"
+
+}
+
+//Fonction d'affichage des listes de films et fleches de navigation
 function genMovieRow(films, rawNumber, rawTitle, nb = 7, page = 1) {
     // selection du movie_row visé
     document.querySelector("#movie_row" + String(rawNumber)).innerHTML=""
@@ -130,7 +145,7 @@ function genMovieRow(films, rawNumber, rawTitle, nb = 7, page = 1) {
     sectionFilms.appendChild(imgListElement)
 }
 
-// model pour row 
+// Classe row avec methodes pour rafraichissement des affichages
 class Row {
     constructor(number, api_url, title, page) {
         this.number = number
@@ -223,13 +238,7 @@ class Row {
 
         modalConstruct += "</p>"
         modalText.innerHTML = modalConstruct
-        // Le résultat au Box Office
-        // Le résumé du film
-    
-        
-                            
-        // modal.style.display = "block";
-        
+
        // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
             modal.style.display = "none";
@@ -242,43 +251,10 @@ class Row {
         }
     }
 }
-function showBestMovie(movie) {
-    const sectionBestMovie = document.getElementById("best_movie")
-    sectionBestMovie.innerHTML = "<h1 class=\"sectionTitle\"> Meilleur film : " + movie.title + "</h1>"
-                                +"<div class=\"container\">"
-                                +"<img src =\"" + movie.image_url + "\">" 
-                                + "<span><br><b>"+ movie.title 
-                                + "<br><br><input id =\"btn-bestmovie\" type=\"button\" value=\"Détails\">"
-                                + "</b><br><br>" + movie.long_description + "</b>"
-                                + "</span></div><br><br>"
 
-}
+// Listener et fonctions onArrowClick
 
-// On genere le row des meilleurs films par note imdb
-// ! specificité : on isole le premier résultat de la liste pour la vignette meilleur film
-
-const url_bestImdbScores = APIbaseUrl + "?sort_by=-imdb_score&imdb_score_min=9"
-const row1 = new Row(1, url_bestImdbScores, "Meilleurs scores ImDb", 1)
-const bestMovie = row1.movies[0]
-console.log("bestMovie = " + bestMovie.title)
-const detailedBestMovie = getMovieDetails(bestMovie.url)
-showBestMovie(detailedBestMovie)
-row1.show()
-
-
-// On genere le row des meilleurs films par catégorie "Animation"
-const url_bestAnimations = APIbaseUrl + "?sort_by=-imdb_score&genre_contains=Animation"
-const row2 = new Row(2, url_bestAnimations, "Meilleurs films d'animation", 1 )
-row2.show()
-
-// On genere le row des meilleurs films de Tarantino
-const url_bestTarantino = APIbaseUrl + "?sort_by=-imdb_score&writer_contains=tarantino&director_contains=tarantino"
-const row3 = new Row(3, url_bestTarantino,"Meilleurs films de Quentin Tarantino", 1)
-row3.show()
-
-document.querySelector("#loading").innerHTML=""
-
-// Boucle pour "écouter" les boutons de défilement gauche et droite
+// Boucle pour "écouter" les boutons de défilement et le bouton détails bestMovie
 function Listener() {
     // Pour les arrows next et previous
     for (let i = 0; i < 3; i++) {
@@ -324,7 +300,6 @@ function onImgClick(row_id, movie_index) {
     }
 }
 
-
 function onArrowClick(elementId) {
     console.log("tu a cliqué sur " + elementId);
     if (elementId == "right1") {
@@ -348,8 +323,36 @@ function onArrowClick(elementId) {
     Listener();
   }
 
+// Main
 
-  Listener()
+// On genere le row des meilleurs films par note imdb
+// ! specificité : on isole le premier résultat de la liste pour la vignette meilleur film
 
-  console.log("je suis à la fin du script js :)")
+const url_bestImdbScores = APIbaseUrl + "?sort_by=-imdb_score&imdb_score_min=9"
+const row1 = new Row(1, url_bestImdbScores, "Meilleurs scores ImDb", 1)
+const bestMovie = row1.movies[0]
+console.log("bestMovie = " + bestMovie.title)
+const detailedBestMovie = getMovieDetails(bestMovie.url)
+showBestMovie(detailedBestMovie)
+row1.show()
+
+
+// On genere le row des meilleurs films par catégorie "Animation"
+const url_bestAnimations = APIbaseUrl + "?sort_by=-imdb_score&genre_contains=Animation"
+const row2 = new Row(2, url_bestAnimations, "Meilleurs films d'animation", 1 )
+row2.show()
+
+// On genere le row des meilleurs films de Tarantino
+const url_bestTarantino = APIbaseUrl + "?sort_by=-imdb_score&writer_contains=tarantino&director_contains=tarantino"
+const row3 = new Row(3, url_bestTarantino,"Meilleurs films de Quentin Tarantino", 1)
+row3.show()
+
+// Purge du message de chargement
+document.querySelector("#loading").innerHTML=""
+
+// Lancement initial du listener pour les elements cliquables
+Listener()
+
+// Fin du script
+console.log("fin de l'execution du script js")
 
