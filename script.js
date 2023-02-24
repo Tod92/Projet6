@@ -165,6 +165,12 @@ class Row {
             console.log("showNext loading movie list(length : " + String(range))
             this.movies = this.get_movies()
         }
+        // Cas ou il n'y a plus de films à afficher
+        if (this.movies.length === (range - 7)) {
+            this.page -= 1;
+            alert("Pas d'avanatage de film de cette catégorie")
+            return "no_more"
+        }
         this.show()
     }
     showPrevious() {
