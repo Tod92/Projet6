@@ -241,8 +241,9 @@ function showBestMovie(movie) {
     sectionBestMovie.innerHTML = "<h1 class=\"sectionTitle\"> Meilleur film : " + movie.title + "</h1>"
                                 +"<div class=\"container\">"
                                 +"<img src =\"" + movie.image_url + "\">" 
-                                + "<span><br><b>"+ movie.title + "</b><br><br>" + movie.long_description 
+                                + "<span><br><b>"+ movie.title 
                                 + "<br><br><input id =\"btn-bestmovie\" type=\"button\" value=\"Détails\">"
+                                + "</b><br><br>" + movie.long_description + "</b>"
                                 + "</span></div><br><br>"
 
 }
