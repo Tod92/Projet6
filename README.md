@@ -1,7 +1,7 @@
 # Openclassrooms - Développez une interface utilisateur pour une application web Python
 
 Cette page web importe les données de films souhaités depuis une API et les affiche sur une page navigable type "Netflix".
-Developpée en HTML, CSS et JavaScript (vanilla), cette premiere version de la page web nécessite
+Developpée en HTML, CSS et JavaScript (vanilla), la grande majorité du contenu HTML final de la page va etre généré par la partie JavaScript.
 
 
 
